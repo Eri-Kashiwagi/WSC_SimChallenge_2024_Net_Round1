@@ -12,6 +12,9 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
     {
         static void Main(string[] args)
         {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string filePath = Path.Combine(desktopPath, "Output.csv");
+            TextWriter originalConsole = Console.Out;
             Console.WriteLine($"Simulation running...");
             PortSimModel WSCPort = new PortSimModel()
             {
@@ -22,8 +25,14 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
             DecisionMaker WSCPortDecisionMaker = new DecisionMaker();
             DecisionMaker.WSCPort = WSCPort;
             Default WSCPortDefaulter = new Default(WSCPort);
-            WSCPort.Run(TimeSpan.FromDays(7 * PortSimModel.RunningWeeks));
-
+            using (StreamWriter writer = new StreamWriter(filePath, append: false))
+            {
+                writer.AutoFlush = true;
+                AGV.stoptest = true;
+                Console.SetOut(writer);
+                WSCPort.Run(TimeSpan.FromDays(7 * PortSimModel.RunningWeeks));
+            }
+            Console.SetOut(originalConsole);
             if (PortSimModel.DebugofBerth)
             {
                 Console.WriteLine($"berthBeingIdle.CompletedList:{WSCPort.berthBeingIdle.CompletedList.Count}");
@@ -139,6 +148,7 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
             Console.WriteLine(String.Concat(Enumerable.Repeat("*", 70)));
 
             Console.WriteLine("Debug Checking:");
+            AGV.stoptest = false;
             WSCPort.Run(TimeSpan.FromDays(300));//release containers by running additional time without discharging;  
             Console.WriteLine($"Discharging condition:{PortSimModel.Discharging == WSCPort.containerDwelling.CompletedList.Count * (PortSimModel.RunningWeeks)}");
             Console.WriteLine($"Loading condition:{PortSimModel.Loading == WSCPort.containerDwelling.CompletedList.Count * (PortSimModel.RunningWeeks- PortSimModel.WarmUpweeks)}");

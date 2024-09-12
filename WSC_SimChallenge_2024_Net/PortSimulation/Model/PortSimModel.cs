@@ -5,6 +5,7 @@
 //#define DebugofContainer
 //#define DebugofAGV
 //#define DebugofYC
+#define Debugofagvewatingyd
 using O2DESNet;
 using System.Globalization;
 using System.Reflection;
@@ -19,7 +20,7 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
     class PortSimModel : Sandbox
     {
         public static int Discharging, Loading = 0;
-        public static bool DebugofBerth, DebugofVessel, DebugofQCLine, DebugofQC, DebugofContainer, DebugofAGV, DebugofYC = false;
+        public static bool DebugofBerth, DebugofVessel, DebugofQCLine, DebugofQC, DebugofContainer, DebugofAGV, DebugofYC, Debugofagvewatingyd = false;
         public static bool IfDetermineBerth = false;
         public static bool IfDetermineAGVs = false;
         public static bool IfDetermineYardBlock = false;
@@ -227,7 +228,9 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
 #if DebugofYC
             DebugofYC = true;
 #endif
-
+#if Debugofagvewatingyd
+            Debugofagvewatingyd = true;
+#endif
             #region Activities of Berth
             berthBeingIdle = AddChild(new Berth.BeingIdle());
             berthBeingOccupied = AddChild(new Berth.BeingOccupied());

@@ -19,6 +19,8 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
         public double Speed = 4.5; //4.5 m/s
         public bool InDischarging;
         public string Id;
+        public static Dictionary<string, List<AGV>> agvwatingyc = new Dictionary<string, List<AGV>>();
+        public static bool stoptest=false;
         public override string ToString()
         {
             return $"AGV[{Id}]";
@@ -142,6 +144,17 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
                 block = block == null ? Default.CustomeizedDetermineYardBlock(agv) : block;
                 block.ReserveSlot();
                 agv.TargetedYB = block;
+                if (PortSimModel.Debugofagvewatingyd)
+                {
+                    if (agvwatingyc.ContainsKey(agv.TargetedYB.Id))
+                    {
+                        agvwatingyc[agv.TargetedYB.Id].Add(agv);
+                    }
+                    else
+                    {
+                        agvwatingyc.Add(agv.TargetedYB.Id, new List<AGV> { agv });
+                    }
+                }
                 agv.LoadedContainer.BlockStacked = block;
                 HourCounter.ObserveChange(1);
                 ProcessingList.Add(agv);
@@ -162,7 +175,19 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
                 NeedExtTryFinish = true;
                 TimeSpan = TimeSpan.Zero;
             }
-
+            protected override void Complete(AGV agv)//完成活动
+            {
+                if (_debugMode) Console.WriteLine($"{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}  {ActivityName}.Complete({agv})");
+                if (PortSimModel.Debugofagvewatingyd&&AGV.stoptest)
+                {
+                    Console.WriteLine($"{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}");
+                    Console.WriteLine($"{agv.TargetedYB.Id}");
+                    Console.WriteLine($"{agvwatingyc[agv.TargetedYB.Id].Count}");
+                }
+                CompletedList.Add(agv);
+                ProcessingList.Remove(agv);
+                AttemptToFinish(agv);
+            }
             public override void AttemptToFinish(AGV agv)
             {
                 if (_debugMode) Console.WriteLine($"{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}  {ActivityName}.AttemptToFinish({agv})");
@@ -175,6 +200,10 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
                 {
                     if (ContainersPending.Contains(agv.LoadedContainer))
                     {
+                        if (PortSimModel.Debugofagvewatingyd)
+                        {
+                            agvwatingyc[agv.TargetedYB.Id].Remove(agv);
+                        }
                         ContainersPending.Remove(agv.LoadedContainer);
                         agv.LoadedContainer.CurrentLocation = agv.TargetedYB.CP;
                         //Update AGV's dynamics
@@ -204,6 +233,10 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
                 AGV agv = CompletedList.Find(a => a.LoadedContainer == container);
                 if (agv != null)
                 {
+                    if (PortSimModel.Debugofagvewatingyd)
+                    {
+                        agvwatingyc[agv.TargetedYB.Id].Remove(agv);
+                    }
                     ContainersPending.Remove(container);
                     container.BlockStacked = agv.TargetedYB;
                     //Update AGV's dynamics
