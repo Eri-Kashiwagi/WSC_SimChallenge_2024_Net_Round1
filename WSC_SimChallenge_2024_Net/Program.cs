@@ -11,10 +11,16 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
     class Program
     {
         static void Main(string[] args)
+<<<<<<< HEAD
         {
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string filePath = Path.Combine(desktopPath, "Output.csv");
             TextWriter originalConsole = Console.Out;
+=======
+        {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            PortSimModel.filePath = Path.Combine(desktopPath, "Output.csv");
+>>>>>>> d65dd7d (改为了第一列是时间，第二列是YardBlock的编号，第三列是AGV等待的数量)
             Console.WriteLine($"Simulation running...");
             PortSimModel WSCPort = new PortSimModel()
             {
@@ -24,6 +30,7 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
             WSCPort.Initialize();
             DecisionMaker WSCPortDecisionMaker = new DecisionMaker();
             DecisionMaker.WSCPort = WSCPort;
+<<<<<<< HEAD
             Default WSCPortDefaulter = new Default(WSCPort);
             using (StreamWriter writer = new StreamWriter(filePath, append: false))
             {
@@ -33,6 +40,10 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
                 WSCPort.Run(TimeSpan.FromDays(7 * PortSimModel.RunningWeeks));
             }
             Console.SetOut(originalConsole);
+=======
+            Default WSCPortDefaulter = new Default(WSCPort);
+            WSCPort.Run(TimeSpan.FromDays(7 * PortSimModel.RunningWeeks));
+>>>>>>> d65dd7d (改为了第一列是时间，第二列是YardBlock的编号，第三列是AGV等待的数量)
             if (PortSimModel.DebugofBerth)
             {
                 Console.WriteLine($"berthBeingIdle.CompletedList:{WSCPort.berthBeingIdle.CompletedList.Count}");
