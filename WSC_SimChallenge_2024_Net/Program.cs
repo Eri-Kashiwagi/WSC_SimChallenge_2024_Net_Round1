@@ -25,6 +25,7 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
             DecisionMaker.WSCPort = WSCPort;
             Default WSCPortDefaulter = new Default(WSCPort);
             WSCPort.Run(TimeSpan.FromDays(7 * PortSimModel.RunningWeeks));
+            PortSimModel.Debugofagvewatingyd = false;
             if (PortSimModel.DebugofBerth)
             {
                 Console.WriteLine($"berthBeingIdle.CompletedList:{WSCPort.berthBeingIdle.CompletedList.Count}");
