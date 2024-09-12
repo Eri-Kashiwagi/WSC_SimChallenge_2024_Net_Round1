@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/bin/Debug/net8.0
+/obj
+/conf/transhipment.csv
+/conf/vessel_arrival_time.csv
+/conf/vessel_arrival_time.csv
