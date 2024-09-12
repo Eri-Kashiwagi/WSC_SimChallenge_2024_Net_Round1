@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WSC_SimChallenge_2024_Net")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2acd3beb90f2290fc12ae9c9d4abd6289820102c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c49e7927bc218ba01b4bdd857554dfdd4aa2e004")]
 [assembly: System.Reflection.AssemblyProductAttribute("WSC_SimChallenge_2024_Net")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WSC_SimChallenge_2024_Net")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

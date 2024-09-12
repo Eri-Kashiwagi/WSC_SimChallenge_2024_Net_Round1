@@ -19,11 +19,7 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation
 {
     class PortSimModel : Sandbox
     {
-<<<<<<< HEAD
         public static int Discharging, Loading = 0;
-=======
-        public static int Discharging, Loading = 0;
->>>>>>> d65dd7d (改为了第一列是时间，第二列是YardBlock的编号，第三列是AGV等待的数量)
         public static bool DebugofBerth, DebugofVessel, DebugofQCLine, DebugofQC, DebugofContainer, DebugofAGV, DebugofYC, Debugofagvewatingyd = false;
         public static bool IfDetermineBerth = false;
         public static bool IfDetermineAGVs = false;

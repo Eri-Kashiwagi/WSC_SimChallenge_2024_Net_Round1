@@ -18,14 +18,8 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
         public QC TargetedQC;
         public double Speed = 4.5; //4.5 m/s
         public bool InDischarging;
-<<<<<<< HEAD
         public string Id;
         public static Dictionary<string, List<AGV>> agvwatingyc = new Dictionary<string, List<AGV>>();
-        public static bool stoptest=false;
-=======
-        public string Id;
-        public static Dictionary<string, List<AGV>> agvwatingyc = new Dictionary<string, List<AGV>>();
->>>>>>> d65dd7d (改为了第一列是时间，第二列是YardBlock的编号，第三列是AGV等待的数量)
         public override string ToString()
         {
             return $"AGV[{Id}]";
@@ -148,11 +142,7 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
                 YardBlock block = DecisionMaker.CustomeizedDetermineYardBlock(agv);
                 block = block == null ? Default.CustomeizedDetermineYardBlock(agv) : block;
                 block.ReserveSlot();
-<<<<<<< HEAD
                 agv.TargetedYB = block;
-=======
-                agv.TargetedYB = block;
->>>>>>> d65dd7d (改为了第一列是时间，第二列是YardBlock的编号，第三列是AGV等待的数量)
                 if (PortSimModel.Debugofagvewatingyd)
                 {
                     if (agvwatingyc.ContainsKey(agv.TargetedYB.Id))
@@ -184,20 +174,6 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
                 NeedExtTryFinish = true;
                 TimeSpan = TimeSpan.Zero;
             }
-<<<<<<< HEAD
-            protected override void Complete(AGV agv)//完成活动
-            {
-                if (_debugMode) Console.WriteLine($"{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}  {ActivityName}.Complete({agv})");
-                if (PortSimModel.Debugofagvewatingyd&&AGV.stoptest)
-                {
-                    Console.WriteLine($"{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}");
-                    Console.WriteLine($"{agv.TargetedYB.Id}");
-                    Console.WriteLine($"{agvwatingyc[agv.TargetedYB.Id].Count}");
-                }
-                CompletedList.Add(agv);
-                ProcessingList.Remove(agv);
-                AttemptToFinish(agv);
-=======
             protected override void Complete(AGV agv)//完成活动
             {
                 if (_debugMode) Console.WriteLine($"{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}  {ActivityName}.Complete({agv})");
@@ -212,7 +188,6 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
                 CompletedList.Add(agv);
                 ProcessingList.Remove(agv);
                 AttemptToFinish(agv);
->>>>>>> d65dd7d (改为了第一列是时间，第二列是YardBlock的编号，第三列是AGV等待的数量)
             }
             public override void AttemptToFinish(AGV agv)
             {
@@ -225,36 +200,28 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
                     ContainersPending.Count > 0)// Entity before messsage, there are AGVs waiting
                 {
                     if (ContainersPending.Contains(agv.LoadedContainer))
-<<<<<<< HEAD
                     {
                         if (PortSimModel.Debugofagvewatingyd)
                         {
                             agvwatingyc[agv.TargetedYB.Id].Remove(agv);
-=======
-                    {
-                        if (PortSimModel.Debugofagvewatingyd)
-                        {
-                            agvwatingyc[agv.TargetedYB.Id].Remove(agv);
->>>>>>> d65dd7d (改为了第一列是时间，第二列是YardBlock的编号，第三列是AGV等待的数量)
-                        }
-                        ContainersPending.Remove(agv.LoadedContainer);
-                        agv.LoadedContainer.CurrentLocation = agv.TargetedYB.CP;
-                        //Update AGV's dynamics
-                        agv.CurrentLocation = agv.TargetedYB.CP;
-                        agv.LoadedContainer = null;
-                        agv.TargetedYB = null;
-                        agv.InDischarging = false;
-                        ReadyToFinishList.Add(agv);
+                            ContainersPending.Remove(agv.LoadedContainer);
+                            agv.LoadedContainer.CurrentLocation = agv.TargetedYB.CP;
+                            //Update AGV's dynamics
+                            agv.CurrentLocation = agv.TargetedYB.CP;
+                            agv.LoadedContainer = null;
+                            agv.TargetedYB = null;
+                            agv.InDischarging = false;
+                            ReadyToFinishList.Add(agv);
 
-                        Finish(agv);
-                    }
-                    else 
-                    {
-                        Console.WriteLine($"Error：{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}  {ActivityName}.TryFinish({agv}): we don't find the determined container for unloading");
+                            Finish(agv);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error：{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}  {ActivityName}.TryFinish({agv}): we don't find the determined container for unloading");
+                        }
                     }
                 }
             }
-
             public override void TryFinish(Object obj)
             {
                 if (_debugMode) Console.WriteLine($"{ClockTime.ToString("yyyy-MM-dd HH:mm:ss")}  {ActivityName}.TryFinish({obj})");
@@ -265,17 +232,10 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
 
                 AGV agv = CompletedList.Find(a => a.LoadedContainer == container);
                 if (agv != null)
-<<<<<<< HEAD
                 {
                     if (PortSimModel.Debugofagvewatingyd)
                     {
                         agvwatingyc[agv.TargetedYB.Id].Remove(agv);
-=======
-                {
-                    if (PortSimModel.Debugofagvewatingyd)
-                    {
-                        agvwatingyc[agv.TargetedYB.Id].Remove(agv);
->>>>>>> d65dd7d (改为了第一列是时间，第二列是YardBlock的编号，第三列是AGV等待的数量)
                     }
                     ContainersPending.Remove(container);
                     container.BlockStacked = agv.TargetedYB;
@@ -421,8 +381,8 @@ namespace WSC_SimChallenge_2024_Net.PortSimulation.Entity
             }
         }
 
-        public static ControlPoint LeftNetworkCP = new ControlPoint {Id = "Left Network Control point", Xcoordinate = 0, Ycoordinate = 100};
-        public static ControlPoint RightNetworkCP = new ControlPoint { Id = "Right Network Control point", Xcoordinate = 1600, Ycoordinate = 100};
+        public static ControlPoint LeftNetworkCP = new ControlPoint { Id = "Left Network Control point", Xcoordinate = 0, Ycoordinate = 100 };
+        public static ControlPoint RightNetworkCP = new ControlPoint { Id = "Right Network Control point", Xcoordinate = 1600, Ycoordinate = 100 };
         public static double CalculateDistance(ControlPoint cp1, ControlPoint cp2)
         {
             double distance = 0;
